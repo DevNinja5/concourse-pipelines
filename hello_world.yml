@@ -11,6 +11,26 @@ jobs:
         outputs:
         - name: artifacts
         run:
-          path: ls
-          args: ["-lF"]
-        
+          path: sh
+          args: 
+          - -cx
+          - |
+            ls -l
+            echo "Hello from another step!" > artifacts/message
+    # Addind second task that reads message from artifacts       
+    - task: read-artifacts
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: busybox
+        inputs:
+        - name: artifacts
+        run:
+          path: sh
+          args:
+          - -cx
+          - |
+            ls -l
+            cat artifacts/message
