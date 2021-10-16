@@ -1,0 +1,18 @@
+jobs:
+- name: hello-job
+  plan:
+    - task: hello_task
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: bash
+        outputs:
+        - name: artifacts
+        run:
+          path: bash
+          args: 
+          - -c
+          - |
+           ls -lF
