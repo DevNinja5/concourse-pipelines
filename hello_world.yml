@@ -7,12 +7,10 @@ jobs:
         image_resource:
           type: registry-image
           source:
-            repository: bash
+            repository: busybox
         outputs:
         - name: artifacts
         run:
-          path: bash
-          args: 
-          - -c
-          - |
-           ls -lF
+          path: ls
+          args: ["-lF"]
+        
