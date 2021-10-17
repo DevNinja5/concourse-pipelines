@@ -12,10 +12,8 @@ jobs:
     - task: hello_task
       config:
         platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: bash
+        image_resource: {type: registry-image, source: {repository: bash}}
+          
         inputs:
         - name: example
         run:
