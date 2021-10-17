@@ -6,12 +6,12 @@ jobs:
         platform: linux
         image_resource:
           type: registry-image
-          source:
-            repository: bash
-        outputs:
-        - name: artifacts
+          source: { repository: busybox }
+            #repository: bash
+        outputs: [name: artifacts, name: packages]
+        #- name: artifacts
         run:
-          path: bash
+          path: sh
           args: 
           - -c
           - |
