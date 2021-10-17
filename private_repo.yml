@@ -1,0 +1,42 @@
+resources:
+- name: repo
+  type: git
+  source:
+    uri: git@github.com:Rahul-Soni28/git-practice.git
+    branch: master
+    private_key: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+      QyNTUxOQAAACDSp6f+7Him+F4LQsQv0iNJKtoLgs18mnP0ODA0by6xUAAAAKD4Ov7v+Dr+
+      7wAAAAtzc2gtZWQyNTUxOQAAACDSp6f+7Him+F4LQsQv0iNJKtoLgs18mnP0ODA0by6xUA
+      AAAED9rBXcm+tBdB1tyLNOnCjjYHzbmzI2iSWOVnRZyB6WhdKnp/7seKb4XgtCxC/SI0kq
+      2guCzXyac/Q4MDRvLrFQAAAAFnJhaHVsLnNvbmlAa25vbGR1cy5jb20BAgMEBQYH
+      -----END OPENSSH PRIVATE KEY-----
+
+jobs:
+- name: commiting
+  plan: 
+  - get: repo
+    trigger: true
+  - task: create-commit 
+    config:
+      platform: linux
+      image_resource: {type: registry-image, source: {repository: gitea/gitea}}
+      inputs: [name: repo] 
+      outputs: [name: repo]
+      params: {EMAIL: rahul.soni@knoldus.com, GIT_AUHTOR_NAME: Rahul Soni}
+      run:
+        path: sh
+        args:
+        - -cx
+        - |
+          cd repo
+          ls -la 
+          date > todays_date
+          git add ./todays_date
+          git config --global user.email $EMAIL
+          git config --global user.name $GIT_AUTHOR_NAME
+          git commit -m "Update todays date"
+  - put: repo
+    params:
+      repository: repo
