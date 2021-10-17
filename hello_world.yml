@@ -1,6 +1,15 @@
+resources:
+- name: example
+  type: git
+  source:
+    uri: https://github.com/concourse/examples.git
+
+
 jobs:
 - name: hello-job
   plan:
+    - get: example
+      trigger: true
     - task: hello_task
       config:
         platform: linux
@@ -8,11 +17,11 @@ jobs:
           type: registry-image
           source:
             repository: bash
-        outputs:
-        - name: artifacts
+        inputs:
+        - name: example
         run:
           path: bash
           args: 
           - -c
           - |
-           ls -lF
+           cat example/README.md
