@@ -1,20 +1,59 @@
+<<<<<<< Updated upstream
+=======
+resources:
+- name: example
+  type: git
+  source:
+    uri: https://github.com/concourse/examples.git
+
+- name: send-an-email
+  type: email
+  source:
+    smtp:
+      host: smtp.gmail.com
+      port: "465"
+      username: rahulducat2019@gmail.com
+      password: hh237@qaHF
+    from: rahulducat2019@gmail.com
+    to: [ rahulducat2019@gmail.com ]
+
+
+resource_types:
+  - name: email
+    type: docker-image
+    source:
+      repository: pcfseceng/email-resource
+
+
+>>>>>>> Stashed changes
 jobs:
 - name: hello-job
   plan:
     - task: hello_task
       config:
         platform: linux
+<<<<<<< Updated upstream
         image_resource:
           type: registry-image
           source:
             repository: busybox
         outputs:
         - name: artifacts
+=======
+        image_resource: {type: registry-image, source: {repository: bash}}
+          
+        inputs:
+        - name: example
+        params:
+            OUTPUT_BODY_FILE_NAME: generated-body
+            OUTPUT_SUBJECT_FILE_NAME: generated-subject
+>>>>>>> Stashed changes
         run:
           path: sh
           args: 
           - -c
           - |
+<<<<<<< Updated upstream
             ls -l
             echo "Hello from another step!" > artifacts/message
     # Addind second task that reads message from artifacts       
@@ -34,3 +73,13 @@ jobs:
           - |
             ls -l
             cat artifacts/message
+=======
+           cat example/README.md > generated-body
+        outputs:
+        - name: email-out
+
+    - put: send-an-email
+      params:
+        subject: "test"
+        body: email-out/gene
+>>>>>>> Stashed changes
