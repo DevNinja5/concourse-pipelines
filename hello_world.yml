@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 resources:
 - name: example
   type: git
@@ -25,61 +23,28 @@ resource_types:
       repository: pcfseceng/email-resource
 
 
->>>>>>> Stashed changes
 jobs:
 - name: hello-job
   plan:
+    - get: example
+      trigger: true
     - task: hello_task
       config:
         platform: linux
-<<<<<<< Updated upstream
-        image_resource:
-          type: registry-image
-          source:
-            repository: busybox
-        outputs:
-        - name: artifacts
-=======
         image_resource: {type: registry-image, source: {repository: bash}}
           
         inputs:
         - name: example
-        params:
-            OUTPUT_BODY_FILE_NAME: generated-body
-            OUTPUT_SUBJECT_FILE_NAME: generated-subject
->>>>>>> Stashed changes
         run:
-          path: sh
+          path: bash
           args: 
           - -c
           - |
-<<<<<<< Updated upstream
-            ls -l
-            echo "Hello from another step!" > artifacts/message
-    # Addind second task that reads message from artifacts       
-    - task: read-artifacts
-      config:
-        platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: busybox
-        inputs:
-        - name: artifacts
-        run:
-          path: sh
-          args:
-          - -c
-          - |
-            ls -l
-            cat artifacts/message
-=======
-           cat example/README.md > generated-body
+           cat example/README.md > read
         outputs:
         - name: email-out
 
     - put: send-an-email
       params:
         subject: "test"
-        body: email-out/gene
->>>>>>> Stashed changes
+        body: "test"
