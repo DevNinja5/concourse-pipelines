@@ -19,14 +19,14 @@ resources:
       host: smtp.gmail.com
       port: "465"
       username: rahulducat2019@gmail.com
-      password: hh237@qaHF
+      password: vhgdgfgchg
     from: rahulducat2019@gmail.com
     to: [ rahulducat2019@gmail.com ]
-# - name: maven-image
-#   type: docker-image
-#   source:
-#     repository: maven
-#     tags: 3.6.0-jdk-8-alpine
+- name: maven-image
+  type: docker-image
+  source:
+    repository: maven
+    tag: 3.6.0-jdk-8-alpine
 
 resource_types:
   - name: email
@@ -37,21 +37,17 @@ resource_types:
 jobs:
 - name: prod
   plan:
-    # - get: maven-image
+    - get: maven-image
     - get: repo
       trigger: true
     - task: test
+      image: maven-image
       config:
-        image_resource:
-          type: docker-image
-          source: 
-            repository: maven 
-            tag: 3.6.0-jdk-8-alpine
         platform: linux
         inputs: [name: repo]
         run:
           path: mvn
-          args: ["test"]
+          args: ["-v"]
           dir: repo
     - task: pack
       config:
@@ -64,9 +60,9 @@ jobs:
         inputs: [name: repo]
         run:
           path: mvn
-          args: ["package"]
+          args: ["-v"]
           dir: repo
-    # - put: send-an-email
-    #   params:
-    #     subject: "email-out/generated-subject"
-    #     body: "email-out/generated-body"
+    - put: send-an-email
+      params:
+        subject: "email-out/generated-subject"
+        body: "email-out/generated-body"
