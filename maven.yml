@@ -1,0 +1,72 @@
+resources:
+- name: repo
+  type: git
+  source:
+    uri: git@github.com:Rahul-Soni28/capstone.git
+    branch: development
+    private_key: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+      QyNTUxOQAAACDSp6f+7Him+F4LQsQv0iNJKtoLgs18mnP0ODA0by6xUAAAAKD4Ov7v+Dr+
+      7wAAAAtzc2gtZWQyNTUxOQAAACDSp6f+7Him+F4LQsQv0iNJKtoLgs18mnP0ODA0by6xUA
+      AAAED9rBXcm+tBdB1tyLNOnCjjYHzbmzI2iSWOVnRZyB6WhdKnp/7seKb4XgtCxC/SI0kq
+      2guCzXyac/Q4MDRvLrFQAAAAFnJhaHVsLnNvbmlAa25vbGR1cy5jb20BAgMEBQYH
+      -----END OPENSSH PRIVATE KEY-----
+- name: send-an-email
+  type: email
+  source:
+    smtp:
+      host: smtp.gmail.com
+      port: "465"
+      username: rahulducat2019@gmail.com
+      password: hh237@qaHF
+    from: rahulducat2019@gmail.com
+    to: [ rahulducat2019@gmail.com ]
+# - name: maven-image
+#   type: docker-image
+#   source:
+#     repository: maven
+#     tags: 3.6.0-jdk-8-alpine
+
+resource_types:
+  - name: email
+    type: docker-image
+    source:
+      repository: pcfseceng/email-resource
+
+jobs:
+- name: prod
+  plan:
+    # - get: maven-image
+    - get: repo
+      trigger: true
+    - task: test
+      config:
+        image_resource:
+          type: docker-image
+          source: 
+            repository: maven 
+            tag: 3.6.0-jdk-8-alpine
+        platform: linux
+        inputs: [name: repo]
+        run:
+          path: mvn
+          args: ["test"]
+          dir: repo
+    - task: pack
+      config:
+        image_resource:
+          type: docker-image
+          source: 
+            repository: maven 
+            tag: 3.6.0-jdk-8-alpine
+        platform: linux
+        inputs: [name: repo]
+        run:
+          path: mvn
+          args: ["package"]
+          dir: repo
+    # - put: send-an-email
+    #   params:
+    #     subject: "email-out/generated-subject"
+    #     body: "email-out/generated-body"
