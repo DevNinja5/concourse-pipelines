@@ -6,11 +6,7 @@ resources:
     branch: development
     private_key: |
       -----BEGIN OPENSSH PRIVATE KEY-----
-      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-      QyNTUxOQAAACDSp6f+7Him+F4LQsQv0iNJKtoLgs18mnP0ODA0by6xUAAAAKD4Ov7v+Dr+
-      7wAAAAtzc2gtZWQyNTUxOQAAACDSp6f+7Him+F4LQsQv0iNJKtoLgs18mnP0ODA0by6xUA
-      AAAED9rBXcm+tBdB1tyLNOnCjjYHzbmzI2iSWOVnRZyB6WhdKnp/7seKb4XgtCxC/SI0kq
-      2guCzXyac/Q4MDRvLrFQAAAAFnJhaHVsLnNvbmlAa25vbGR1cy5jb20BAgMEBQYH
+      
       -----END OPENSSH PRIVATE KEY-----
 - name: send-an-email
   type: email
