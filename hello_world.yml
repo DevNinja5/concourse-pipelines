@@ -8,10 +8,10 @@ resources:
   type: email
   source:
     smtp:
-      host: smtp.gmail.com
-      port: "465"
-      username: rahulducat2019@gmail.com
-      password: hh237@qaHF
+      host: email-smtp.ap-south-1.amazonaws.com
+      port: "587"
+      username: AKIAUYSJT5EDJG5K4HEL
+      password: BDrfKOERoQSteF21u6w3fcMaNBQXi5EEERYQV3DKr7NW
     from: rahulducat2019@gmail.com
     to: [ rahulducat2019@gmail.com ]
 
