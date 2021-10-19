@@ -47,7 +47,7 @@ jobs:
         inputs: [name: repo]
         run:
           path: mvn
-          args: ["-v"]
+          args: ["clean test"]
           dir: repo
     - task: pack
       config:
@@ -60,7 +60,7 @@ jobs:
         inputs: [name: repo]
         run:
           path: mvn
-          args: ["-v"]
+          args: ["package"]
           dir: repo
     - put: send-an-email
       params:
